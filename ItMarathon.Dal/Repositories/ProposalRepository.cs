@@ -28,7 +28,9 @@ public class ProposalRepository(ApplicationDbContext repositoryContext) :
                 .ThenInclude(properties => properties.PredefinedValue)
                     .ThenInclude(prop => prop!.ParentPropertyValue);
 
-        return await query.ToListAsync();
+        int count = await query.CountAsync();
+        List<Proposal> proposals = await query.ToListAsync();
+        return proposals;
     }
 
     public async Task<Proposal?> GetProposalAsync(long proposalId, bool trackChanges)
